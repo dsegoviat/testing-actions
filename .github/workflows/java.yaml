@@ -17,6 +17,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Print permissions of /opt/hostedtoolcache recursively
+        run: |
+          ls -laR /opt/hostedtoolcache
+
       - name: Add dummy certificate to Java keystore
         run: |
           keytool -genkeypair -v \
@@ -36,7 +40,3 @@ jobs:
             -srcstorepass password \
             -deststorepass changeit \
             -noprompt
-
-      - name: Print permissions of /opt/hostedtoolcache recursively
-        run: |
-          ls -laR /opt/hostedtoolcache
