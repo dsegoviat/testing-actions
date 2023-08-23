@@ -12,34 +12,32 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Print permissions of $JAVA_HOME/lib/security/cacerts
+        run: |
+          ls -lFa $JAVA_HOME/lib/security/cacerts
+
+      - uses: ./actions/java-dummy-certificate
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '20'
+
+      - name: Print permissions of $JAVA_HOME/lib/security/cacerts
+        run: |
+          ls -lFa $JAVA_HOME/lib/security/cacerts
+
+      - uses: ./actions/java-dummy-certificate
+
       - name: Print permissions of /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk recursively
         run: |
           ls -laR /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk
-
-      - name: Add dummy certificate to Java keystore
-        run: |
-          keytool -genkeypair -v \
-            -keystore my-release-key.jks \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -alias my-key \
-            -storepass password \
-            -keypass password \
-            -dname "CN=dummy, OU=dummy, O=dummy, L=dummy, ST=dummy, C=dummy"
-          
-          keytool -importkeystore \
-            -srckeystore my-release-key.jks \
-            -destkeystore $JAVA_HOME/lib/security/cacerts \
-            -srcalias my-key \
-            -srcstorepass password \
-            -deststorepass changeit \
-            -noprompt
