@@ -1,6 +1,9 @@
 name: Java Setup and Keystore Modification
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
