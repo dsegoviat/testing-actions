@@ -1,0 +1,42 @@
+name: Java Setup and Keystore Modification
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Add dummy certificate to Java keystore
+        run: |
+          keytool -genkeypair -v \
+            -keystore my-release-key.jks \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -alias my-key \
+            -storepass password \
+            -keypass password \
+            -dname "CN=dummy, OU=dummy, O=dummy, L=dummy, ST=dummy, C=dummy"
+          
+          keytool -importkeystore \
+            -srckeystore my-release-key.jks \
+            -destkeystore $JAVA_HOME/lib/security/cacerts \
+            -srcalias my-key \
+            -srcstorepass password \
+            -deststorepass changeit \
+            -noprompt
+
+      - name: Print permissions of /opt/hostedtoolcache recursively
+        run: |
+          ls -laR /opt/hostedtoolcache
