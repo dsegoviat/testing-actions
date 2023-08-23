@@ -20,9 +20,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Print permissions of /opt/hostedtoolcache recursively
+      - name: Print permissions of /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk recursively
         run: |
-          ls -laR /opt/hostedtoolcache
+          ls -laR /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk
 
       - name: Add dummy certificate to Java keystore
         run: |
