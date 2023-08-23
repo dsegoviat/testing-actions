@@ -20,6 +20,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+      
+      - name: Print permissions of /opt/hostedtoolcache recursively
+        run: |
+          ls -laR /opt/hostedtoolcache
 
       - name: Print permissions of $JAVA_HOME/lib/security/cacerts
         run: |
@@ -38,7 +42,3 @@ jobs:
           ls -lFa $JAVA_HOME/lib/security/cacerts
 
       - uses: ./actions/java-dummy-certificate
-
-      - name: Print permissions of /opt/hostedtoolcache recursively
-        run: |
-          ls -laR /opt/hostedtoolcache
