@@ -7,23 +7,21 @@ runs:
     - name: Add dummy certificate to Java keystore
       shell: bash
       run: |
-        if [ ! -f my-release-key.p12 ]; then
-            keytool -genkeypair -v \
-                    -keystore my-release-key.p12 \
-                    -storetype PKCS12 \
-                    -keyalg RSA \
-                    -keysize 2048 \
-                    -validity 10000 \
-                    -alias my-key \
-                    -storepass password \
-                    -keypass password \
-                    -dname "CN=dummy, OU=dummy, O=dummy, L=dummy, ST=dummy, C=dummy"
-        fi
-        
-        keytool -importkeystore \
-          -srckeystore my-release-key.p12 \
-          -destkeystore $HOME/cacerts \
-          -srcalias my-key \
-          -srcstorepass password \
-          -deststorepass changeit \
-          -noprompt
+        keytool -genkeypair -v \
+                  -keystore my-release-key.p12 \
+                  -storetype PKCS12 \
+                  -keyalg RSA \
+                  -keysize 2048 \
+                  -validity 10000 \
+                  -alias my-key \
+                  -storepass password \
+                  -keypass password \
+                  -dname "CN=dummy, OU=dummy, O=dummy, L=dummy, ST=dummy, C=dummy"
+
+          keytool -importkeystore \
+            -srckeystore my-release-key.p12 \
+            -destkeystore $HOME/cacerts \
+            -srcalias my-key \
+            -srcstorepass password \
+            -deststorepass changeit \
+            -noprompt
