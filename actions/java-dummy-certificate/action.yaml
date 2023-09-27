@@ -22,7 +22,7 @@ runs:
         
         keytool -importkeystore \
           -srckeystore my-release-key.p12 \
-          -destkeystore $JAVA_HOME/lib/security/cacerts \
+          -destkeystore $HOME/cacerts \
           -srcalias my-key \
           -srcstorepass password \
           -deststorepass changeit \
